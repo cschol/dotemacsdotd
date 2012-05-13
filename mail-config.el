@@ -1,6 +1,12 @@
 ;; imap/mail configuration
-(setq send-mail-function (quote smtpmail-send-it))
 (setq user-mail-address "cschol2112@gmail.com")
-(setq smtpmail-smtp-server "imap.gmail.com")
-(setq smtpmail-smtp-service 587)
-(setq smtpmail-stream-type 'starttls)
+
+(require 'smtpmail)
+(setq send-mail-function 'smtpmail-send-it
+      message-send-mail-function 'smtpmail-send-it
+      smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      smtpmail-stream-type 'starttls)
+
+(setq smtpmail-auth-credentials (concat runtime-data-dir "/.authinfo"))
