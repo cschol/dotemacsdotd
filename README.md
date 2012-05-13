@@ -1,0 +1,4 @@
+dotemacsdotd
+============
+
+My Emacs configuration
