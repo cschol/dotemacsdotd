@@ -1,0 +1,6 @@
+
+: dir	Node: Top	This is the top of the INFO tree
+* Menu: The list of major topics begins on the next line.
+
+Python
+* Python 2.7: (~/.emacs.d/info/python.info). Python Language Reference
