@@ -1,6 +1,6 @@
 ;; Emacs settings specific to the Linux platform
 
-(set-face-attribute 'default nil :height 100) ; 100/10 = 10 pt
+(set-face-attribute 'default nil :height 110)
 
 ;; imap/mail configuration for GNU/Linux
 (require 'smtpmail)
