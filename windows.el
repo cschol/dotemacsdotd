@@ -18,10 +18,10 @@
 (set-face-attribute 'default nil :font "Consolas-9")
 
 ;; cygwin integration
-;; (my-update-path-and-exec-path
-;;  (list "c:\\cygwin\\bin"
-;;        "c:\\cygwin\\usr\\sbin"
-;;        "c:\\cygwin\\usr\\local\\bin"))
+(my-update-path-and-exec-path
+ (list "c:\\cygwin\\bin"
+       "c:\\cygwin\\usr\\sbin"
+       "c:\\cygwin\\usr\\local\\bin"))
 
 (defun platform-windows7-p ()
   (let ((version (w32-version)))
