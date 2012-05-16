@@ -1,30 +1,9 @@
-;; Settings for emacs plugins
+;; Settings for Emacs plugins
 
 ;; custom themes
 (add-to-list 'custom-theme-load-path (concat dotfiles-dir "themes"))
 
-;; org-mode
-;; (require 'org-install)
-;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-
-;; (setq org-directory (concat runtime-data-dir "org"))
-;; (when (not (file-exists-p org-directory))
-;;   (make-directory org-directory))
-
-;; (setq org-default-notes-file (concat org-directory "/default-notes.org")
-;;       org-capture-templates
-;;       '(("t" "Todo" entry (file+headline (concat org-directory "/todo.org") "Tasks")
-;;          "* TODO %?\n  %i\n")
-;;         ("n" "Note" entry (file+headline (concat org-directory "/notes.org") "Notes")
-;;          "* %?\n%U\n  %i\n")))
-
-;; (defun my-org-mode-hook ()
-;;   ;; Fix conflict between org-mode and yasnippet
-;;   (lambda ()
-;;     (org-set-local 'yas/trigger-key [tab])
-;;     (define-key yas/keymap [tab] 'yas/next-field-group)))
-;; (add-hook 'org-mode-hook 'my-org-mode-hook)
-
+;; FIXME Do I need this?
 ;; yasnippet
 ;; (require 'yasnippet)
 ;; (setq yas/root-directory
@@ -54,6 +33,7 @@
       ido-auto-merge-work-directories-length -1)
 (ido-everywhere t)
 (ido-mode 1)
+(add-to-list 'ido-ignore-buffers ".*TAGS$")
 
 ;; grep
 (setq grep-files-aliases
@@ -66,31 +46,49 @@
         ("h" . "*.h")
         ))
 
+(autoload 'find-file "find-file" nil t)
+(eval-after-load 'find-file
+  '(progn
+     (setq cc-search-directories 
+           (append cc-search-directories '("../../*"
+                                           "../*/*"
+                                           "$PROJECT_ROOT/*/*"
+                                           "$PROJECT_ROOT/*/*/include/*")))
+     (set-default 'ff-ignore-include t)
+     (set-default 'ff-quiet-mode t)
+     (set-default 'ff-always-try-to-create nil)))
+
 ;; cc-mode customizations
 (autoload 'cc-mode "cc-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 
-;; cc-mode style for stuff at work
-(defconst my-work-c-style
+(defconst my-c-style
   '((c-basic-offset . 2)
     (c-offsets-alist . ((substatement . 0)
                         (substatement-open . 0)
                         (brace-list-open . 0)
                         (statement-case-open . 0)
                         (case-label . +))))
-  "My C style for work")
-(c-add-style "work" my-work-c-style)
+  "My C style")
+(c-add-style "cschol-style" my-c-style)
 
 (defun my-c-initialization-hook ()
   "Init-time cc-mode customizations"
-  ;; ignore #include lines with ff-find-other-file
-  (setq ff-ignore-include t))
+  ;; Nothing to do here yet
+  )
 (add-hook 'c-initialization-hook 'my-c-initialization-hook)
 
 (defun my-c-mode-hook ()
-  "cc-mode customizations for work"
-  (when (string-match "work" buffer-file-name)
-    (c-set-style "work")))
+  "c-mode customizations."
+  ;; Nothing to do here yet
+  )
 (add-hook 'c-mode-hook 'my-c-mode-hook)
+
+(defun my-c++-mode-hook ()
+  "c++-mode customizations."
+  (c-set-style "stroustrup")
+  (gtags-mode 1))
+(add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 ;; uniquify
 (require 'uniquify)
@@ -104,11 +102,27 @@
       ibuffer-always-show-last-buffer t
       ibuffer-never-show-predicates (list "^ \\*"))
 
+(setq ibuffer-saved-filter-groups
+      (quote (("default"
+               ("dired" (mode . dired-mode))
+               ("planner" (or
+                           (name . "^\\*Calendar\\*$")
+                           (name . "^diary$")))
+               ("emacs" (or
+                         (name . "^\\*scratch\\*$")
+                         (name . "^\\*Messages\\*$")
+                         (name . "^\\*Completions*$")
+                         (name . "^\\*shell*$")))))))
+
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-switch-to-saved-filter-groups "default")))
+
 ;; ediff
 (defun my-ediff-load-hook ()
- (setq ediff-window-setup-function 'ediff-setup-windows-plain
-       ediff-split-window-function 'split-window-horizontally
-       ediff-keep-variants nil))
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain
+        ediff-split-window-function 'split-window-horizontally
+        ediff-keep-variants nil))
 (add-hook 'ediff-load-hook 'my-ediff-load-hook)
 
 ;; desktop-save
@@ -149,3 +163,64 @@
 (setq tramp-default-method "pscp")
 (setq tramp-verbose 3) ;; 3=default
 (setq password-cache-expiry nil)
+
+;; gtags
+(autoload 'gtags-mode "gtags" "" t)
+
+(defun my-gtags-settings ()
+  "Settings for gtags."
+  (interactive)
+
+  (define-prefix-command 'gtags-keymap)
+  (define-key global-map (kbd "C-c g") 'gtags-keymap)
+
+  (define-key gtags-mode-map (kbd "C->") 'gtags-find-tag-from-here)
+  (define-key gtags-mode-map (kbd "C-<") 'gtags-pop-stack)
+  (define-key gtags-mode-map (kbd "C-c g s") 'gtags-find-symbol)
+  (define-key gtags-mode-map (kbd "C-c g t") 'gtags-find-tag)
+  (define-key gtags-mode-map (kbd "C-c g r") 'gtags-find-rtag)
+  (define-key gtags-mode-map (kbd "C-c g f") 'gtags-find-file)
+  (define-key gtags-mode-map (kbd "C-c g d") 'gtags-visit-rootdir)
+
+  (define-key gtags-select-mode-map (kbd "n") 'next-line)
+  (define-key gtags-select-mode-map (kbd "p") 'previous-line)
+  (define-key gtags-select-mode-map (kbd "RET") 'gtags-select-tag)
+  (define-key gtags-select-mode-map (kbd "C->") 'gtags-select-tag)
+  (define-key gtags-select-mode-map (kbd "C-<") 'gtags-pop-stack)
+
+  (define-key gtags-select-mode-map (kbd "q") 'quit-window)
+
+  (add-hook 'gtags-select-mode-hook '(lambda () (hl-line-mode 1)))
+  )
+(eval-after-load "gtags" '(my-gtags-settings))
+
+;; ack-and-a-half
+(autoload 'ack-and-a-half-same "ack-and-a-half" nil t)
+(autoload 'ack-and-a-half "ack-and-a-half" nil t)
+(autoload 'ack-and-a-half-find-file-same "ack-and-a-half" nil t)
+(autoload 'ack-and-a-half-find-file "ack-and-a-half" nil t)
+
+(defalias 'ack 'ack-and-a-half)
+(defalias 'ack-same 'ack-and-a-half-same)
+(defalias 'ack-find-file 'ack-and-a-half-find-file)
+(defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)
+
+(defvar my-ack-options
+  "-G .*(test|backup|build|deprecated).* --invert-file-match"
+  "Custom ack options.")
+
+(defun acksrc ()
+  "Call ack interactively while modifying ACK_OPTIONS to discard certain files."
+  (interactive)
+  (let* (curr-ack-options (getenv "ACK_OPTIONS"))
+    (setenv "ACK_OPTIONS" my-ack-options)
+    (call-interactively 'ack)
+    (setenv "ACK_OPTIONS" curr-ack-options)
+    ))
+
+;; winner
+(require 'winner)
+(setq winner-dont-bind-my-keys t) ;; default bindings conflict with org-mode
+(global-set-key (kbd "<C-s-268632078>") 'winner-undo)
+(global-set-key (kbd "<C-s-p>") 'winner-redo)
+(winner-mode t)

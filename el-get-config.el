@@ -43,19 +43,20 @@
                         (define-key ac-menu-map "\C-n" 'ac-next)
                         (define-key ac-menu-map "\C-p" 'ac-previous)
 
-                        (ac-define-source etags
-                          '((candidates . (lambda ()
-                                            (all-completions ac-target (tags-completion-table))))
-                            (requires . 3)
-                            (summary "auto-complete source for Etags")))
+                        ;; (ac-define-source etags
+                        ;;   '((candidates . (lambda ()
+                        ;;                     (all-completions ac-target (tags-completion-table))))
+                        ;;     (requires . 3)
+                        ;;     (summary "auto-complete source for Etags")))
 
-                        (add-hook 'c-mode-common-hook
-                                  '(lambda ()
-                                     (add-to-list 'ac-omni-completion-sources
-                                                  (cons "\\." '(ac-source-semantic)))
-                                     (add-to-list 'ac-omni-completion-sources
-                                                  (cons "->" '(ac-source-semantic)))
-                                     (add-to-list 'ac-sources 'ac-source-etags)))))
+                        ;; (add-hook 'c-mode-common-hook
+                        ;;           '(lambda ()
+                        ;;              (add-to-list 'ac-omni-completion-sources
+                        ;;                           (cons "\\." '(ac-source-semantic)))
+                        ;;              (add-to-list 'ac-omni-completion-sources
+                        ;;                           (cons "->" '(ac-source-semantic)))
+                        ;;              (add-to-list 'ac-sources 'ac-source-etags)))
+                        ))
 
         ;; (:name browse-kill-ring+
         ;;        :after (progn

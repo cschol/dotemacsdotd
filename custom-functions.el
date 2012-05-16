@@ -23,7 +23,7 @@
   "Path to exuberant ctags executable.")
 
 (defvar ctags-options
-  "-e -R -h default --c-kinds=+l+x+p --fields=+i+a+S --extra=+q --langmap=c:.c.cxgate"
+  "-e -R -h default --c-kinds=+l+x+p --fields=+i+a+S --extra=+q"
   "Custom options to build ctags database.")
 
 (defun my-create-tags-file ()
@@ -224,12 +224,12 @@ end of the line."
       (isearch-pop-state))
 
     ;; Go to beginning of word at point
-    (skip-syntax-backward "w_")
+    (goto-char (car (bounds-of-thing-at-point 'sexp)))
     ;; and yank entire word into search string.
     (isearch-yank-internal
      (lambda ()
-       (skip-syntax-forward "w_")
-       (point)))))
+       (point)
+       (cdr (bounds-of-thing-at-point 'sexp))))))
 
 (define-key isearch-mode-map (kbd "C-a") 'isearch-yank-word-at-point)
 
@@ -254,3 +254,38 @@ end of the line."
   (setq explicit-shell-file-name "cmdproxy")
   (setenv "SHELL" explicit-shell-file-name)
   (setq w32-quote-process-args nil))
+
+;; Original idea from:
+;; http://emacs-fu.blogspot.com/2009/02/transparent-emacs.html
+(defun my-modify-opacity (&optional dec)
+  "Modify the transparency of the emacs frame; if DEC is t,
+    decrease the transparency, otherwise increase it in 10%-steps."
+  (let* ((alpha-or-nil (frame-parameter nil 'alpha)) ; nil before setting
+	 (oldalpha (if alpha-or-nil alpha-or-nil 100))
+	 (newalpha (if dec (- oldalpha 10) (+ oldalpha 10))))
+    (when (and (>= newalpha frame-alpha-lower-limit) (<= newalpha 100))
+      (modify-frame-parameters nil (list (cons 'alpha newalpha)))))
+  (message "Frame opacity: %d" (frame-parameter nil 'alpha)))
+
+;; C-8 will increase opacity (== decrease transparency)
+;; C-9 will decrease opacity (== increase transparency
+;; C-0 will returns the state to normal
+(global-set-key (kbd "C-8") '(lambda()(interactive)(my-modify-opacity)))
+(global-set-key (kbd "C-9") '(lambda()(interactive)(my-modify-opacity t)))
+(global-set-key (kbd "C-0") '(lambda()(interactive)
+                               (modify-frame-parameters nil `((alpha . 100)))))
+
+(modify-frame-parameters nil `((alpha . 80))) ;; default opacity on startup
+(setq frame-inherited-parameters '(alpha))
+
+;; from http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/
+(defun toggle-current-window-dedication ()
+  (interactive)
+  (let* ((window    (selected-window))
+         (dedicated (window-dedicated-p window)))
+    (set-window-dedicated-p window (not dedicated))
+    (message "Window %sdedicated to %s"
+             (if dedicated "no longer " "")
+             (buffer-name))))
+
+(global-set-key [pause] 'toggle-current-window-dedication)

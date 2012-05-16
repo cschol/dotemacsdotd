@@ -1,12 +1,18 @@
 ;; EMACS configuration
 
-;; Load path
 (defvar dotfiles-dir (file-name-directory
                       (or (buffer-file-name) load-file-name))
   "Location of .emacs.d directory.")
 
+;; Adjust load path
+(add-to-list 'load-path (concat dotfiles-dir "vendor"))
+(progn
+  (cd (concat dotfiles-dir "vendor"))
+  (normal-top-level-add-subdirs-to-load-path))
+
 ;; Path to runtime configuration data files
-(defvar runtime-data-dir (concat dotfiles-dir "data/")
+(defconst tmp-data-dir "~/")
+(defvar runtime-data-dir (concat tmp-data-dir ".emacs-data/")
   "Location of Emacs data files.")
 (when (not (file-exists-p runtime-data-dir))
   (make-directory runtime-data-dir t))
@@ -34,17 +40,16 @@
       blink-matching-paren t
       scroll-preserve-screen-position t
       truncate-partial-width-windows nil
-      yank-excluded-properties t)
+      yank-excluded-properties t
+      window-nest t
+)
 (setq-default truncate-lines t             ; disable line wrap
               indent-tabs-mode nil         ; disable tabs globally
               comment-column 0)
 (tool-bar-mode -1)                         ; disable toolbar
 (menu-bar-mode -1)                         ; disable menu bar
 (scroll-bar-mode -1)                       ; disable scrollbars
-;;; FIXME
-;; (delete-selection-mode 1)
-;; delete-selection-mode enables transient-mark-mode,
-;; disable transient-mark-mode next
+(blink-cursor-mode 0)                      ; disable cursor blinking
 (setq transient-mark-mode nil)             ; disable t-m-m
 (global-auto-revert-mode 1)                ; always reread file if they have changed
 (fset 'yes-or-no-p 'y-or-n-p)              ; enable shortcuts for yes or no
@@ -89,7 +94,8 @@
 
 (defun my-programming-modes-common-hook ()
   "Common hook for major programming modes"
-  (setq show-trailing-whitespace t))
+  ;(setq show-trailing-whitespace t)
+  )
 
 ;; Add hooks common to all my major programming modes
 (mapc (lambda (hook)

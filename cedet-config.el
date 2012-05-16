@@ -1,18 +1,16 @@
-;; cedet
+;; CEDET
+(require 'semantic)
 (setq semanticdb-default-save-directory (concat runtime-data-dir "semanticdb/"))
+(global-semantic-idle-completions-mode t)
+(global-semantic-decoration-mode t)
+(global-semantic-highlight-func-mode t)
+(global-semantic-show-unmatched-syntax-mode t)
+(semanticdb-enable-gnu-global-databases 'c-mode)
 
-;; (semantic-load-enable-minimum-features)
-;; (require 'semantic-ia)
-;; (require 'semantic-gcc)
-
-;; (defun my-cedet-hook ()
-;;   (local-set-key [(control return)] 'semantic-ia-complete-symbol)
-;;   (local-set-key "\C-c?" 'semantic-ia-complete-symbol-menu)
-;; ;  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
-;;   (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle))
-;; (add-hook 'c-mode-common-hook 'my-cedet-hook)
-
-;; (defun my-c-mode-cedet-hook ()
-;;  (local-set-key "." 'semantic-complete-self-insert)
-;;  (local-set-key ">" 'semantic-complete-self-insert))
-;; (add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
+;; CEDET integration with auto-complete
+;; FIXME Move to separate hook
+(add-hook 'c-mode-common-hook
+          '(lambda ()
+             (setq ac-sources (append '(ac-source-semantic) ac-sources))
+             (linum-mode t)
+             (semantic-mode t)))

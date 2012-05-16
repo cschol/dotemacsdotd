@@ -11,11 +11,9 @@
     ("C-c a" . org-agenda)
 
     ("C-M-<backspace>" . kill-whole-line)
-    ("<f12>"           . toggle-truncate-lines)
-    ("C-<f5>"          . linum-mode)
     ("C-x C-b"         . ibuffer-other-window)
-    ("C-c b"           . bury-buffer)
-    ("C-c u"           . unbury-buffer)
+    ("C-c C-b"         . bury-buffer)
+    ("C-c C-u"         . unbury-buffer)
 
     ;; from http://sites.google.com/site/steveyegge2/effective-emacs
     ("C-c C-m" . execute-extended-command)
