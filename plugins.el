@@ -224,3 +224,9 @@
 (global-set-key (kbd "<C-s-268632078>") 'winner-undo)
 (global-set-key (kbd "<C-s-p>") 'winner-redo)
 (winner-mode t)
+
+;; holidays
+(setq holiday-hebrew-holidays nil
+      holiday-islamic-holidays nil
+      holiday-bahai-holidays nil
+      holiday-oriental-holidays nil)
