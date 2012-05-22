@@ -105,9 +105,11 @@
 (setq ibuffer-saved-filter-groups
       (quote (("default"
                ("dired" (mode . dired-mode))
-               ("planner" (or
+               ("org" (or
                            (name . "^\\*Calendar\\*$")
-                           (name . "^diary$")))
+                           (name . "^diary$")
+                           (name . "^\\*Org Agenda\\*$")
+                           (name . "\\.org$")))
                ("emacs" (or
                          (name . "^\\*scratch\\*$")
                          (name . "^\\*Messages\\*$")
