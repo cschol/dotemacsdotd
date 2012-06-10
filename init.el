@@ -1,5 +1,4 @@
 ;; EMACS configuration
-
 (defvar dotfiles-dir (file-name-directory
                       (or (buffer-file-name) load-file-name))
   "Location of .emacs.d directory.")
@@ -209,11 +208,17 @@
 (load (concat dotfiles-dir "gnus-config.el") 'noerror)
 (load (concat dotfiles-dir "project-config.el") 'noerror)
 (load (concat dotfiles-dir "erc-config.el") 'noerror)
-(load (concat dotfiles-dir "org-config.el") 'noerror)
 (load (concat dotfiles-dir "cedet-config.el") 'noerror)
 (load (concat dotfiles-dir "keybindings.el"))
 (setq custom-file (concat dotfiles-dir "init-custom.el"))
 (load custom-file 'noerror)
+
+;; Load org-mode configuration from Dropbox (if available)
+(let* ((dropbox-dir (getenv "DROPBOX")))
+  (if (not (or (eq dropbox-dir nil)
+               (eq dropbox-dir "")))
+      (load (concat dropbox-dir "/org-mode/GTD/org-config.el") nil)
+    (message "Invalid environment variable DROPBOX.")))
 
 ;; Globally enable custom key layout...
 (my-keys-minor-mode 1)
