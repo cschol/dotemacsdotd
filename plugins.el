@@ -90,6 +90,26 @@
   (gtags-mode 1))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
+;; python
+(progn
+  (defun my-insert-self ()
+    "Insert `self.' at the beginning of the current expression."
+    (interactive)
+    (save-excursion
+      (search-backward-regexp "[ \n\t,(-]\\|^")
+      (if (not (looking-at "^"))
+          (forward-char))
+      (insert "self.")))
+
+  (defun my-python-mode-hook ()
+    (setq python-indent-offset 4)
+
+    ;; Adjust autopair behavior for Python triple-quotes
+    (setq autopair-handle-action-fns
+          (list 'autopair-default-handle-action
+                'autopair-python-triple-quote-action)))
+  (add-hook 'python-mode-hook 'my-python-mode-hook))
+
 ;; uniquify
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)

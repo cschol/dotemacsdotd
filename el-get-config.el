@@ -66,26 +66,6 @@
         ;;                       browse-kill-ring-no-duplicates t)
         ;;                 ))
 
-        (:name python
-               :after (progn
-                        (defun my-insert-self ()
-                          "Insert `self.' at the beginning of the current expression."
-                          (interactive)
-                          (save-excursion
-                            (search-backward-regexp "[ \n\t,(-]\\|^")
-                            (if (not (looking-at "^"))
-                                (forward-char))
-                            (insert "self.")))
-
-                        (defun my-python-mode-hook ()
-                          (setq python-indent-offset 4)
-
-                          ;; Adjust autopair behavior for Python triple-quotes
-                          (setq autopair-handle-action-fns
-                                (list 'autopair-default-handle-action
-                                      'autopair-python-triple-quote-action)))
-                        (add-hook 'python-mode-hook 'my-python-mode-hook)))
-
         (:name org-mode
                :website "http://orgmode.org/"
                :description "Org-mode is for keeping notes, maintaining ToDo lists, doing project planning, and authoring with a fast and effective plain-text system."
