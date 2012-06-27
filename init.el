@@ -140,11 +140,6 @@
             (expand-file-name
              (concat "#%" (buffer-name) "#")))))
 
-;; package
-(require 'package)
-(setq package-user-dir (concat runtime-data-dir "elpa"))
-(package-initialize)
-
 ;; Enable auto-fill in text mode
 (setq-default major-mode 'text-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
@@ -202,6 +197,7 @@
 
 ;; Load other configuration files
 (load (concat dotfiles-dir "el-get-config.el"))
+(load (concat dotfiles-dir "package-config.el"))
 (load (concat dotfiles-dir "plugins.el"))
 (load (concat dotfiles-dir "custom-functions.el"))
 (load (concat dotfiles-dir "mail-config.el") 'noerror)
@@ -214,11 +210,11 @@
 (load custom-file 'noerror)
 
 ;; Load org-mode configuration from Dropbox (if available)
-(let* ((dropbox-dir (getenv "DROPBOX")))
-  (if (not (or (eq dropbox-dir nil)
-               (eq dropbox-dir "")))
-      (load (concat dropbox-dir "/org-mode/GTD/org-config.el") nil)
-    (message "Invalid environment variable DROPBOX.")))
+(let* ((dropbox-org-dir (getenv "DROPBOXORG")))
+  (if (not (or (eq dropbox-org-dir nil)
+               (eq dropbox-org-dir "")))
+      (load (concat dropbox-org-dir "/GTD/org-config.el") nil)
+    (message "Invalid environment variable DROPBOXORG.")))
 
 ;; Globally enable custom key layout...
 (my-keys-minor-mode 1)
