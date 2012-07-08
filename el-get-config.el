@@ -58,6 +58,11 @@
                         ;;              (add-to-list 'ac-sources 'ac-source-etags)))
                         ))
 
+        (:name browse-kill-ring
+               :after (progn
+                        (browse-kill-ring-default-keybindings)
+                        ))
+        
         (:name browse-kill-ring+
                :type emacswiki
                :feature browse-kill-ring+
@@ -86,7 +91,6 @@
 
 (setq el-get-packages
       '(el-get
-        browse-kill-ring
         helm))
 
 ;; add a hook listener for post-install el-get
