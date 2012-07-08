@@ -29,7 +29,7 @@
                         (mapc (lambda (hook)
                                 (add-hook hook (lambda () (paredit-mode +1))))
                               my-enable-paredit-mode-hook-list)))
-
+        
         (:name auto-complete
                :after (progn
                         (require 'auto-complete-config)
@@ -75,6 +75,10 @@
                :load-path ("." "lisp" "contrib/lisp")
                :autoloads nil
                :features org-install)
+        
+        (:name magit
+               :after (progn
+                        (global-set-key (kbd "C-x C-z") 'magit-status)))
         ))
 
 
