@@ -58,13 +58,15 @@
                         ;;              (add-to-list 'ac-sources 'ac-source-etags)))
                         ))
 
-        ;; (:name browse-kill-ring+
-        ;;        :after (progn
-        ;;                 (ad-enable-advice 'kill-new 'around 'browse-kill-ring-no-kill-new-duplicates)
-        ;;                 (ad-activate 'kill-new)
-        ;;                 (setq browse-kill-ring-quit-action 'save-and-restore
-        ;;                       browse-kill-ring-no-duplicates t)
-        ;;                 ))
+        (:name browse-kill-ring+
+               :type emacswiki
+               :feature browse-kill-ring+
+               :after (progn
+                        (ad-enable-advice 'kill-new 'around 'browse-kill-ring-no-kill-new-duplicates)
+                        (ad-activate 'kill-new)
+                        (setq browse-kill-ring-quit-action 'save-and-restore
+                              browse-kill-ring-no-duplicates t)
+                        ))
 
         (:name org-mode
                :website "http://orgmode.org/"
