@@ -29,7 +29,7 @@
                         (mapc (lambda (hook)
                                 (add-hook hook (lambda () (paredit-mode +1))))
                               my-enable-paredit-mode-hook-list)))
-
+        
         (:name auto-complete
                :after (progn
                         (require 'auto-complete-config)
@@ -58,13 +58,20 @@
                         ;;              (add-to-list 'ac-sources 'ac-source-etags)))
                         ))
 
-        ;; (:name browse-kill-ring+
-        ;;        :after (progn
-        ;;                 (ad-enable-advice 'kill-new 'around 'browse-kill-ring-no-kill-new-duplicates)
-        ;;                 (ad-activate 'kill-new)
-        ;;                 (setq browse-kill-ring-quit-action 'save-and-restore
-        ;;                       browse-kill-ring-no-duplicates t)
-        ;;                 ))
+        (:name browse-kill-ring
+               :after (progn
+                        (browse-kill-ring-default-keybindings)
+                        ))
+        
+        (:name browse-kill-ring+
+               :type emacswiki
+               :feature browse-kill-ring+
+               :after (progn
+                        (ad-enable-advice 'kill-new 'around 'browse-kill-ring-no-kill-new-duplicates)
+                        (ad-activate 'kill-new)
+                        (setq browse-kill-ring-quit-action 'save-and-restore
+                              browse-kill-ring-no-duplicates t)
+                        ))
 
         (:name org-mode
                :website "http://orgmode.org/"
@@ -75,12 +82,15 @@
                :load-path ("." "lisp" "contrib/lisp")
                :autoloads nil
                :features org-install)
+        
+        (:name magit
+               :after (progn
+                        (global-set-key (kbd "C-x C-z") 'magit-status)))
         ))
 
 
 (setq el-get-packages
       '(el-get
-        browse-kill-ring
         helm))
 
 ;; add a hook listener for post-install el-get

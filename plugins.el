@@ -49,7 +49,7 @@
 (autoload 'find-file "find-file" nil t)
 (eval-after-load 'find-file
   '(progn
-     (setq cc-search-directories 
+     (setq cc-search-directories
            (append cc-search-directories '("../../*"
                                            "../*/*"
                                            "$PROJECT_ROOT/*/*"
@@ -252,3 +252,13 @@
       holiday-islamic-holidays nil
       holiday-bahai-holidays nil
       holiday-oriental-holidays nil)
+
+;; shell
+(autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+;; term
+(require 'term)
+(define-key term-raw-map  (kbd "C-'") 'term-line-mode)
+(define-key term-mode-map (kbd "C-'") 'term-char-mode)
+(define-key term-raw-map  (kbd "C-y") 'term-paste)
