@@ -80,7 +80,7 @@
                :url "git://orgmode.org/org-mode.git"
                :info "doc"
                :load-path ("." "lisp" "contrib/lisp")
-               :autoloads nil
+               :autoloads t
                :features org-install)
         
         (:name magit
