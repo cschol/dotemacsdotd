@@ -1,8 +1,9 @@
 ;; Inspired by: 
 ;; http://batsov.com/articles/2012/02/19/package-management-in-emacs-the-good-the-bad-and-the-ugly/
 
-;; package
+(require 'cl)
 (require 'package)
+
 (setq package-user-dir (concat dotfiles-dir "/vendor/packages"))
 (package-initialize)
 
