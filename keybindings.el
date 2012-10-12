@@ -19,7 +19,6 @@
     ("C-c C-m" . execute-extended-command)
     ("C-w"     . backward-kill-word)
     ("C-x C-k" . kill-region)
-    ("C-c C-k" . kill-region)
 
     ;; Map my custom functions
     ("C-S-l" . my-duplicate-line)

@@ -53,6 +53,10 @@
 (global-auto-revert-mode 1)                ; always reread file if they have changed
 (fset 'yes-or-no-p 'y-or-n-p)              ; enable shortcuts for yes or no
 
+;; Force window into vertical split
+(setq split-height-threshold 0)
+(setq split-width-threshold 0)
+
 ;; Changelog
 (setq add-log-keep-changes-together t)
 
