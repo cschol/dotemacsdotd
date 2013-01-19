@@ -53,9 +53,7 @@
 (global-auto-revert-mode 1)                ; always reread file if they have changed
 (fset 'yes-or-no-p 'y-or-n-p)              ; enable shortcuts for yes or no
 
-;; Force window into vertical split
-(setq split-height-threshold 0)
-(setq split-width-threshold 0)
+(setq split-width-threshold nil)           ; don't allow horizontal split
 
 ;; Changelog
 (setq add-log-keep-changes-together t)
@@ -208,7 +206,7 @@
 (load (concat dotfiles-dir "gnus-config.el") 'noerror)
 (load (concat dotfiles-dir "project-config.el") 'noerror)
 (load (concat dotfiles-dir "erc-config.el") 'noerror)
-(load (concat dotfiles-dir "cedet-config.el") 'noerror)
+(load (concat dotfiles-dir "minimal-cedet-config.el"))
 (load (concat dotfiles-dir "keybindings.el"))
 (setq custom-file (concat dotfiles-dir "init-custom.el"))
 (load custom-file 'noerror)
@@ -226,3 +224,6 @@
 (defun my-minibuffer-setup-hook ()
   (my-keys-minor-mode 0))
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
+
+;; (setq display-buffer-alist 
+;;       '((".*" . (display-buffer-same-window . nil))))

@@ -29,7 +29,7 @@
                         (mapc (lambda (hook)
                                 (add-hook hook (lambda () (paredit-mode +1))))
                               my-enable-paredit-mode-hook-list)))
-        
+
         (:name auto-complete
                :after (progn
                         (require 'auto-complete-config)
@@ -56,68 +56,43 @@
                         ;;              (add-to-list 'ac-omni-completion-sources
                         ;;                           (cons "->" '(ac-source-semantic)))
                         ;;              (add-to-list 'ac-sources 'ac-source-etags)))
+                        (set-cursor-color "white")
                         ))
 
         (:name browse-kill-ring
                :after (progn
+                        (require 'browse-kill-ring)
                         (browse-kill-ring-default-keybindings)
                         ))
-        
+
         (:name browse-kill-ring+
                :type emacswiki
                :feature browse-kill-ring+
                :after (progn
-                        (ad-enable-advice 'kill-new 'around 'browse-kill-ring-no-kill-new-duplicates)
-                        (ad-activate 'kill-new)
-                        (setq browse-kill-ring-quit-action 'save-and-restore
-                              browse-kill-ring-no-duplicates t)
+                        (setq browse-kill-ring-no-duplicates t)
                         ))
 
-        (:name org-mode
-               :website "http://orgmode.org/"
-               :description "Org-mode is for keeping notes, maintaining ToDo lists, doing project planning, and authoring with a fast and effective plain-text system."
-               :type git
-               :url "git://orgmode.org/org-mode.git"
-               :info "doc"
-               :load-path ("." "lisp" "contrib/lisp")
-               :autoloads t
-               :features org-install)
-        
         (:name magit
                :after (progn
                         (global-set-key (kbd "C-x C-z") 'magit-status)))
         ))
 
-
 (setq el-get-packages
       '(el-get
-        helm))
+        helm
+        org-mode
+        cedet))
 
-;; add a hook listener for post-install el-get
-(defun post-install-hook (pkg)
-  ;; after installing el-get, load the local package list
-  (if (string-equal pkg "el-get")
-      (el-get 'sync
-              (append el-get-packages
-                      (mapcar 'el-get-source-name el-get-sources)))))
-(add-hook 'el-get-post-install-hooks 'post-install-hook)
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
-;; add the el-get directory to the load path
-(add-to-list 'load-path
-             (concat (file-name-as-directory user-emacs-directory)
-                     (file-name-as-directory "el-get")
-                     "el-get"))
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+    (let (el-get-master-branch)
+      (goto-char (point-max))
+      (eval-print-last-sexp))))
 
-;; try to require el-get master branch
-(if (eq (require 'el-get nil t) nil)
-
-    ;; urp, need to bootstrap
-    (url-retrieve
-     "https://raw.github.com/dimitri/el-get/master/el-get-install.el"
-     (lambda (s)
-       (let (el-get-master-branch)
-         (goto-char (point-max))
-         (eval-print-last-sexp))))
-
-  ;; successfully required el-get, load the packages!
-  (post-install-hook "el-get"))
+(el-get 'sync
+        (append el-get-packages
+                (mapcar 'el-get-source-name el-get-sources)))
