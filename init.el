@@ -224,6 +224,3 @@
 (defun my-minibuffer-setup-hook ()
   (my-keys-minor-mode 0))
 (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook)
-
-;; (setq display-buffer-alist 
-;;       '((".*" . (display-buffer-same-window . nil))))
