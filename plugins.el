@@ -3,27 +3,6 @@
 ;; custom themes
 (add-to-list 'custom-theme-load-path (concat dotfiles-dir "themes"))
 
-;; FIXME Do I need this?
-;; yasnippet
-;; (require 'yasnippet)
-;; (setq yas/root-directory
-;;       (list (concat dotfiles-dir "plugins/snippets")
-;;             (concat dotfiles-dir "plugins/yasnippet/snippets")
-;;             (concat dotfiles-dir "plugins/snippets-work")))
-
-;; (mapc (lambda (dir)
-;;         (yas/load-directory dir))
-;;       yas/root-directory)
-
-;; (setq yas/indent-line 'fixed) ;; Fixes indentation problem with comments
-;; (setq yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt))
-;; (yas/global-mode 1)
-
-;; (defun my-yasnippet-update-hook ()
-;;   (when (string-match "snippets" buffer-file-name)
-;;     (yas/load-directory (concat dotfiles-dir "plugins/snippets"))))
-;; (add-hook 'after-save-hook 'my-yasnippet-update-hook)
-
 ;; ido
 (require 'ido)
 (setq ido-enable-flex-matching t
@@ -102,12 +81,7 @@
       (insert "self.")))
 
   (defun my-python-mode-hook ()
-    (setq python-indent-offset 4)
-
-    ;; Adjust autopair behavior for Python triple-quotes
-    (setq autopair-handle-action-fns
-          (list 'autopair-default-handle-action
-                'autopair-python-triple-quote-action)))
+    (setq python-indent-offset 4))
   (add-hook 'python-mode-hook 'my-python-mode-hook))
 
 ;; uniquify
@@ -240,13 +214,6 @@
     (setenv "ACK_OPTIONS" curr-ack-options)
     ))
 
-;; winner
-(require 'winner)
-(setq winner-dont-bind-my-keys t) ;; default bindings conflict with org-mode
-(global-set-key (kbd "<C-s-268632078>") 'winner-undo)
-(global-set-key (kbd "<C-s-p>") 'winner-redo)
-(winner-mode t)
-
 ;; holidays
 (setq holiday-hebrew-holidays nil
       holiday-islamic-holidays nil
@@ -262,3 +229,6 @@
 (define-key term-raw-map  (kbd "C-'") 'term-line-mode)
 (define-key term-mode-map (kbd "C-'") 'term-char-mode)
 (define-key term-raw-map  (kbd "C-y") 'term-paste)
+
+;; smartparens
+(smartparens-global-mode t)
