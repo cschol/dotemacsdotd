@@ -45,15 +45,17 @@
 (setq-default truncate-lines t             ; disable line wrap
               indent-tabs-mode nil         ; disable tabs globally
               comment-column 0)
-(tool-bar-mode -1)                         ; disable toolbar
-(menu-bar-mode -1)                         ; disable menu bar
-(scroll-bar-mode -1)                       ; disable scrollbars
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1)) ; disable toolbar
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1)) ; disable menu bar
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1)) ; disable scrollbars
 (blink-cursor-mode 0)                      ; disable cursor blinking
 (setq transient-mark-mode nil)             ; disable t-m-m
 (global-auto-revert-mode 1)                ; always reread file if they have changed
 (fset 'yes-or-no-p 'y-or-n-p)              ; enable shortcuts for yes or no
 
 (setq split-width-threshold nil)           ; don't allow horizontal split
+
+(setq eval-expression-print-level nil)     ; don't limit structure printing
 
 ;; Changelog
 (setq add-log-keep-changes-together t)
@@ -203,7 +205,8 @@
 (load (concat dotfiles-dir "plugins.el"))
 (load (concat dotfiles-dir "custom-functions.el"))
 (load (concat dotfiles-dir "mail-config.el") 'noerror)
-(load (concat dotfiles-dir "gnus-config.el") 'noerror)
+;(load (concat dotfiles-dir "gnus-config.el") 'noerror)
+(load (concat dotfiles-dir "mu4e-config.el") 'noerror)
 (load (concat dotfiles-dir "project-config.el") 'noerror)
 (load (concat dotfiles-dir "erc-config.el") 'noerror)
 (load (concat dotfiles-dir "minimal-cedet-config.el"))
