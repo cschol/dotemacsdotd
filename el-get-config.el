@@ -5,19 +5,6 @@
                         (global-set-key (kbd "M-x") 'smex)
                         (global-set-key (kbd "M-X") 'smex-major-mode-commands)))
 
-        (:name autopair
-               :after (progn
-                        (setq autopair-autowrap t)
-
-                        (defvar my-autopair-enabled-mode-hook-list
-                          '(c-mode-common-hook
-                            python-mode-hook
-                            js2-mode-hook)
-                          "List of modes that have autopair-mode enabled.")
-
-                        (mapc (lambda (hook)
-                                (add-hook hook (lambda () (autopair-mode))))
-                              my-autopair-enabled-mode-hook-list)))
         (:name paredit
                :after (progn
                         (defvar my-enable-paredit-mode-hook-list
@@ -75,6 +62,10 @@
         (:name magit
                :after (progn
                         (global-set-key (kbd "C-x C-z") 'magit-status)))
+
+        (:name popwin
+               :after (progn
+                        (setq display-buffer-function 'popwin:display-buffer)))
         ))
 
 (setq el-get-packages
