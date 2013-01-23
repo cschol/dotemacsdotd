@@ -7,13 +7,17 @@
 (setq package-user-dir (concat dotfiles-dir "/vendor/packages"))
 (package-initialize)
 
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(defvar marmalade '("marmalade" . "http://marmalade-repo.org/packages/"))
+(defvar melpa '("melpa" . "http://melpa.milkbox.net/packages/"))
+
+(add-to-list 'package-archives marmalade t)
+(add-to-list 'package-archives melpa t)
 
 (defvar emacs-packages
   '(ack-and-a-half
     solarized-theme
-    zenburn-theme)
+    zenburn-theme
+    smartparens)
   "A list of packages to ensure are installed at launch.")
 
 (defun emacs-packages-installed-p ()
