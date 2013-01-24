@@ -219,7 +219,7 @@
   (if (not (or (eq dropbox-org-dir nil)
                (eq dropbox-org-dir "")))
       (load (concat dropbox-org-dir "/GTD/org-config.el") nil)
-    (message "Invalid environment variable DROPBOXORG.")))
+    (message "Environment variable DROPBOXORG is undefined.")))
 
 ;; Globally enable custom key layout...
 (my-keys-minor-mode 1)
