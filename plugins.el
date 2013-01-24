@@ -232,3 +232,7 @@
 
 ;; smartparens
 (smartparens-global-mode t)
+
+;; url
+(require 'url)
+(setq url-configuration-directory (concat runtime-data-dir "url"))
