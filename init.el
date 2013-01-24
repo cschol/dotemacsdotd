@@ -209,7 +209,7 @@
 (load (concat dotfiles-dir "mu4e-config.el") 'noerror)
 (load (concat dotfiles-dir "project-config.el") 'noerror)
 (load (concat dotfiles-dir "erc-config.el") 'noerror)
-(load (concat dotfiles-dir "minimal-cedet-config.el"))
+(load (concat dotfiles-dir "cedet-config.el"))
 (load (concat dotfiles-dir "keybindings.el"))
 (setq custom-file (concat dotfiles-dir "init-custom.el"))
 (load custom-file 'noerror)
