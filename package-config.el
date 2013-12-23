@@ -16,7 +16,6 @@
 (defvar emacs-packages
   '(ack-and-a-half
     solarized-theme
-    zenburn-theme
     smartparens
     magit
     browse-kill-ring
