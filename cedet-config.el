@@ -2,7 +2,6 @@
 
 (setq cedet-root-path (file-name-as-directory (concat dotfiles-dir "el-get/cedet/")))
 (add-to-list 'load-path (concat cedet-root-path "contrib"))
-(add-to-list 'Info-directory-list (concat cedet-root-path "/doc/info"))
 
 (setq semanticdb-default-save-directory (concat runtime-data-dir "semanticdb/"))
 
@@ -22,7 +21,6 @@
 (add-hook 'c-mode-common-hook
           '(lambda ()
              (setq ac-sources (append '(ac-source-semantic) ac-sources))
-             (linum-mode t)
              ))
 
 ;; load contrib library

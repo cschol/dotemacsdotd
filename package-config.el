@@ -17,7 +17,10 @@
   '(ack-and-a-half
     solarized-theme
     zenburn-theme
-    smartparens)
+    smartparens
+    magit
+    browse-kill-ring
+    )
   "A list of packages to ensure are installed at launch.")
 
 (defun emacs-packages-installed-p ()
