@@ -24,7 +24,6 @@
     ("C-S-l" . my-duplicate-line)
     ("C-M-o" . my-vi-open-line)
     ("C-M-;" . my-comment-dwim-line)
-    ("C-c m" . my-maximize-frame)
     ("C-x K" . my-kill-all-buffers))
 
   "List mapping custom keybindings to functions per mode and mode-keymap.")
@@ -47,10 +46,6 @@
 (eval-after-load 'python
   '(progn
      (define-key python-mode-map (kbd "C-;") 'my-insert-self)))
-
-(eval-after-load 'paredit
-  '(progn
-     (define-key paredit-mode-map (kbd "M-r") nil)))
 
 ;; Function alias definitions
 (defalias 'qrr 'query-replace-regexp)
