@@ -185,18 +185,6 @@ region starting at number specfied by parameter n."
           (replace-match (number-to-string count))
           (setq count (+ 1 count)))))))
 
-(defun my-maximize-frame ()
-  "Maximizes the active Emacs frame."
-  (interactive)
-  (when (system-type-windows-p)
-    ;; Send `SC_MAXIMIZE'
-    (w32-send-sys-command 61488))
-  (when (system-type-linux-p)
-    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-    (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-                           '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))))
-
 ;; Original idea from
 ;; http://www.opensubscriber.com/message/emacs-devel@gnu.org/10971693.html
 (defun my-comment-dwim-line (&optional arg)
