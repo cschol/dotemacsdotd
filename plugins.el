@@ -205,6 +205,7 @@
   "-G .*(test|backup|build|deprecated).* --invert-file-match"
   "Custom ack options.")
 
+;; TODO Maybe use .ackrc for this?
 (defun acksrc ()
   "Call ack interactively while modifying ACK_OPTIONS to discard certain files."
   (interactive)
