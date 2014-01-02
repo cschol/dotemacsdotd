@@ -237,3 +237,13 @@
 ;; url
 (require 'url)
 (setq url-configuration-directory (concat runtime-data-dir "url"))
+
+;; solarized color theme
+;; Note: set here due to a bug in customize, which does not apply these
+;; settings when starting Emacs before the color theme gets loaded.
+(setq solarized-height-minus-1 1.0)
+(setq solarized-height-plus-1 1.0)
+(setq solarized-height-plus-2 1.0)
+(setq solarized-height-plus-3 1.0)
+(setq solarized-height-plus-4 1.0)
+(setq solarized-use-variable-pitch nil)
