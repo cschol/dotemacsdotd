@@ -9,9 +9,11 @@
 
 (defvar marmalade '("marmalade" . "http://marmalade-repo.org/packages/"))
 (defvar melpa '("melpa" . "http://melpa.milkbox.net/packages/"))
+(defvar org-elpa '("org" . "http://orgmode.org/elpa/"))
 
 (add-to-list 'package-archives marmalade t)
 (add-to-list 'package-archives melpa t)
+(add-to-list 'package-archives org-elpa t)
 
 (defvar emacs-packages
   '(ack-and-a-half
@@ -19,6 +21,7 @@
     smartparens
     magit
     browse-kill-ring
+    org-plus-contrib
     )
   "A list of packages to ensure are installed at launch.")
 
